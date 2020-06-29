@@ -4,7 +4,8 @@
 // . 全局变量：
 Config          g_config;                       // 配置表
 unsigned int    g_ledsNum               = 1;
-CRGB*           gp_leds                 = NULL; // LED对象数组
+//CRGB*           gp_leds                 = NULL; // LED对象数组
+CRGB            gp_leds[512];
 bool            g_needReinitializeMode  = false;
 unsigned long   g_mode_start_millis     = 0;
 bool            g_print_mode_info       = false;

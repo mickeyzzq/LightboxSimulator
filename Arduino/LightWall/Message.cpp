@@ -59,7 +59,7 @@ void ProcessMessage(String& msg)
           String color_val_hex = color_kv.value().as<String>();
           int color_val = (int) strtol( color_val_hex.c_str(), NULL, 16);
           Serial.print("\tSet color["); Serial.print(color_idx); Serial.print("] to :0x");
-          Serial.print(color_val, HEX); Serial.print("("); Serial.print(color_val_hex);Serial.println(").");
+          Serial.print(color_val, HEX); Serial.print("("); Serial.print(color_val_hex); Serial.println(").");
           g_config.mode_params[use_mode].color[color_idx] = color_val;
           isConfigDirty = true;
         }
@@ -100,6 +100,26 @@ void ProcessMessage(String& msg)
           isConfigDirty = true;
         }
       }
+    }
+    else if (key == "grid_count")
+    {
+      g_config.led_grid_config.led_grid_count   = kv.value().as<uint8_t>();
+      isConfigDirty = true;
+    }
+    else if (key == "num_per_grid")
+    {
+      g_config.led_grid_config.ic_num_per_grid  = kv.value().as<uint8_t>();
+      isConfigDirty = true;
+    }
+    else if (key == "row_num")
+    {
+      g_config.led_grid_config.row_num          = kv.value().as<uint8_t>();
+      isConfigDirty = true;
+    }
+    else if (key == "col_num")
+    {
+      g_config.led_grid_config.col_num          = kv.value().as<uint8_t>();
+      isConfigDirty = true;
     }
   }
 

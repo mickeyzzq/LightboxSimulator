@@ -36,12 +36,20 @@ void ReceiveAndProcessATCommand()
   {
     PrintStoregeInfo();
   }
-  else if (cmd == "pm")   // 打印当前模式的运行时调试信息
+  else if (cmd == "pd")   // 打印当前模式的运行时调试信息
   {
     g_print_mode_info = true;
     g_print_mode_stoptime = 3000 + millis();
     Serial.print("Current mode:"); Serial.print(g_config.current_mode);
     Serial.println("Runtime info:");
+  }
+  else if (cmd == "pg")   // 打印全局变量表
+  {
+g_ledsNum;
+g_needReinitializeMode;
+g_mode_start_millis;        // 模式的启动时间
+g_print_mode_info;
+g_print_mode_stoptime;
   }
   else if (cmd == "mi")   // 当前模式初始化
   {

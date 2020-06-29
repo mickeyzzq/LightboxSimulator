@@ -9,7 +9,7 @@
 #define MODE_COUNT              9
 #define MODE_DEFAULT_Breathing  0     // 预设：基本-呼吸灯
 #define MODE_DEFAULT_Mosaic     1     // 预设：基本-马赛克
-#define MODE_DEFAULT_Ambilight  2     // 预设：基本-流光
+#define MODE_DEFAULT_Ambilight  2     // 预设：基本-流光 - 
 #define MODE_VOCAL_Histogram    3     // 人声：基本-柱状变化
 #define MODE_VOCAL_Brightness   4     // 人声：基本-亮度变化
 #define MODE_VOCAL_Concentric   5     // 人声：基本-同心圆
@@ -57,11 +57,13 @@ typedef struct __Config
 // . 全局变量：
 extern Config         g_config;                   // 配置表
 extern unsigned int   g_ledsNum;                  // LED芯片数量
-extern CRGB*          gp_leds;                    // LED对象数组
+//extern CRGB*          gp_leds;                    // LED对象数组
+extern CRGB           gp_leds[];                    // LED对象数组
 extern bool           g_needReinitializeMode;     // 是否需要对当前模式重新初始化
 extern unsigned long  g_mode_start_millis;        // 模式的启动时间
 extern bool           g_print_mode_info;
 extern unsigned int   g_print_mode_stoptime;
+
 
 // 函数声明
 // Version.cpp
@@ -77,6 +79,9 @@ void ReadConfig();
 void PrintConfig();
 void PrintStoregeInfo();
 
+// 麦克风 相关
+void MicrophoneSetup();
+
 // SerialMessage.cpp
 void ReceiveAndProcessSerialMessage();
 void ReceiveAndProcessATCommand();
@@ -87,3 +92,15 @@ void ProcessMessage(String& msg);
 // Mode 0 : 呼吸灯
 void Mode_0_Initialize();
 void Mode_0_Process();
+
+// Mode 1 : 马赛克
+void Mode_1_Initialize();
+void Mode_1_Process();
+
+// Mode 4 : 人声
+void Mode_4_Initialize();
+void Mode_4_Process();
+
+// 格子函数
+void LedGrid_SetColor(uint16_t gridIndex, const CRGB& color);
+void LedGrid_ClearColor();

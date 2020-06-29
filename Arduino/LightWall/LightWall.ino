@@ -2,7 +2,7 @@
 
 #define DEBUG   true
 
-#define LED_CHIP_SET    UCS1903
+#define LED_CHIP_SET    WS2811 //UCS1903
 #define LED_CHIP_RGBSET BGR
 
 void setup()
@@ -34,28 +34,34 @@ void setup()
 
   // ... LED 驱动初始化
   Serial.println("Initialize LED driver...");
-  g_ledsNum = g_config.led_grid_config.led_grid_count;
+  g_ledsNum = g_config.led_grid_config.led_grid_count * g_config.led_grid_config.ic_num_per_grid;
   Serial.print("LEDs Number = "); Serial.println(g_ledsNum);
-  gp_leds = new CRGB[g_ledsNum];
+  //gp_leds = new CRGB[g_ledsNum];
   FastLED.addLeds<LED_CHIP_SET, DATA_PIN, LED_CHIP_RGBSET>(gp_leds, g_ledsNum);
 
+  for (int i = 0; i < g_ledsNum; i++)
+  {
+    gp_leds[i] = CRGB::White;
+  }
   LEDS.setBrightness(256);
+  LEDS.show();
   delay(500);
   LEDS.setBrightness(0);
+  LEDS.show();
   delay(500);
   LEDS.setBrightness(256);
+  LEDS.show();
   delay(500);
   LEDS.setBrightness(0);
-  delay(500);
-  LEDS.setBrightness(256);
-  delay(500);
-  LEDS.setBrightness(0);
-  delay(500);
+  LEDS.show();
+
+  g_needReinitializeMode = true;
 
   Serial.println("OK!");
 
   // ... 初始化拾音器
-
+  MicrophoneSetup();
+  
   // ... 初始化Wifi
 
   // ... 初始化TCP Server
@@ -94,6 +100,18 @@ void loop()
         Mode_0_Process();
       }
       break;
+    // 4: 默认： MODE_VOCAL_Brightness
+    case MODE_VOCAL_Brightness:
+      {
+        if (g_needReinitializeMode)
+        {
+          Mode_4_Initialize();
+          g_needReinitializeMode = false;
+        }
+
+        Mode_4_Process();
+      }
+      break;
     default:
       {
         // 配置错误，默认恢复到呼吸灯
@@ -102,6 +120,6 @@ void loop()
       break;
   }
 
+  delay(20);
   LEDS.show();
-  //delay(10);
 }
