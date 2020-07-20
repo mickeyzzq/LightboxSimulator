@@ -1,0 +1,22 @@
+#ifndef _WATERBAR_H_
+#define _WATERBAR_H_
+
+//////////////////////////////////////////////////////////////////////
+// 头文件
+#include <EEPROM.h>
+#include <FastLED.h>
+
+//////////////////////////////////////////////////////////////////////
+// 公用函数声明
+
+//////////////////////////////////////////////////////////////////////
+// 包含所有的hpp
+#include "Version.hpp"
+#include "Grids.hpp"
+#include "Config.hpp"
+#include "Mode.hpp"
+#include "Mode_Test.hpp"
+#include "Mode_Breath.hpp"
+#include "CommandProcess.hpp"
+#include "SerialCommand.hpp"
+#endif

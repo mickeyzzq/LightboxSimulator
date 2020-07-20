@@ -6,7 +6,9 @@ namespace LEDExpert.Models
 {
     public enum MenuItemType
     {
-        Browse,
+        Fantasy,        // 幻彩效果（无输入）
+        Vocals,         // 人声效果（麦克风）
+        Music,          // 音乐效果（Aux或麦克风，Aux优先）
         About
     }
     public class HomeMenuItem

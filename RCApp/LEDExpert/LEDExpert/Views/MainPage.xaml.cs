@@ -21,7 +21,7 @@ namespace LEDExpert.Views
 
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.Fantasy, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)
@@ -30,7 +30,13 @@ namespace LEDExpert.Views
             {
                 switch (id)
                 {
-                    case (int)MenuItemType.Browse:
+                    case (int)MenuItemType.Fantasy:
+                        MenuPages.Add(id, new NavigationPage(new ItemsPage()));
+                        break;
+                    case (int)MenuItemType.Vocals:
+                        MenuPages.Add(id, new NavigationPage(new ItemsPage()));
+                        break;
+                    case (int)MenuItemType.Music:
                         MenuPages.Add(id, new NavigationPage(new ItemsPage()));
                         break;
                     case (int)MenuItemType.About:
