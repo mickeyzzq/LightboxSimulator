@@ -7,8 +7,8 @@ void PrintVersionInfo()
   Serial.println("+   百 工 智 造");
   Serial.println("+---------------------------------->");
   Serial.println();                                                           
-  Serial.println(" HPLC 高性能LED远程控制器  版本 1.0.4.");
-  Serial.println(" HPLC LED Controller Version 1.0.4.");
+  Serial.println(" HPLC 高性能LED远程控制器  版本 1.0.5.");
+  Serial.println(" HPLC LED Controller Version 1.0.5.");
   Serial.println(" 作者：朱志强");
   Serial.println(" Author: mickeyzzq.");
   Serial.println(" Email/邮箱:mickey@vip.qq.com");

@@ -60,12 +60,12 @@ class Mode_Test: public Mode
       unsigned long currMillis = millis();
       if ((currMillis - _last_proc_time) > _interval_time)
       {
-        Serial.print("Turn off:"); Serial.print(_row);  Serial.print(", "); Serial.println(_col);
+        //Serial.print("Turn off:"); Serial.print(_row);  Serial.print(", "); Serial.println(_col);
         Grids.LightOff(_row, _col);
         _col += 1;
         if (FindNextLedGrid(_row, _col))
         {
-          Serial.print("Turn on :"); Serial.print(_row);  Serial.print(", "); Serial.println(_col);
+          //Serial.print("Turn on :"); Serial.print(_row);  Serial.print(", "); Serial.println(_col);
           Grids.SetColor(_row, _col, _current_color);
         }
         else
@@ -76,7 +76,7 @@ class Mode_Test: public Mode
           Serial.println("====> Not found, restart test...");
         }
         _last_proc_time = currMillis;
-        Serial.println();
+        //Serial.println();
         return true;
       }
       else

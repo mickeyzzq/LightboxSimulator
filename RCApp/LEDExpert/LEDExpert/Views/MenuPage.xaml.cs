@@ -20,10 +20,8 @@ namespace LEDExpert.Views
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Fantasy, Title="Fantasy" },
-                new HomeMenuItem {Id = MenuItemType.Vocals, Title="Vocals" },
-                new HomeMenuItem {Id = MenuItemType.Music, Title="Music" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" }
+                new HomeMenuItem {Id = MenuItemType.Fantasy, Title="效果选择" },
+                new HomeMenuItem {Id = MenuItemType.About, Title="关于" }
             };
 
             ListViewMenu.ItemsSource = menuItems;

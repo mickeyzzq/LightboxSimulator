@@ -1,9 +1,7 @@
 #ifndef _SERIALCOMMAND_HPP_
 #define _SERIALCOMMAND_HPP_
 
-// 串口指令的消息头和尾
-#define MSG_HEAD        0x5F    // 二进制为：0101 1111  字符为： _
-#define MSG_TERMINATOR  0x5E    // 二进制为：0101 1110  字符为： ^
+extern bool g_pause;
 
 // 串口指令接收
 void ReceiveAndProcessSerialMessage()
@@ -52,6 +50,9 @@ void ReceiveAndProcessATCommand()
 
     Mode_Test::DefaultConfig(ConfigManager.config.mode[0]);
     Mode_Breath::DefaultConfig(ConfigManager.config.mode[1]);
+    Mode_Mosaic::DefaultConfig(ConfigManager.config.mode[2]);
+    Mode_AudioVis::DefaultConfig(ConfigManager.config.mode[3]);
+    Mode_AudioScroll::DefaultConfig(ConfigManager.config.mode[4]);
     ConfigManager.Save();
     ConfigManager.modeChanged = true;
   }
@@ -69,25 +70,14 @@ void ReceiveAndProcessATCommand()
     ConfigManager.modeChanged = true;
     Serial.print("Test mode stopped, restore to mode "); Serial.println(old_mode);
   }
-  //  else if (cmd == "ps")               // 打印存储信息
-  //  {
-  //    PrintStoregeInfo();
-  //  }
-  //  else if (cmd == "pd")   // 打印当前模式的运行时调试信息
-  //  {
-  //    g_print_mode_info = true;
-  //    g_print_mode_stoptime = 3000 + millis();
-  //    Serial.print("Current mode:"); Serial.print(g_config.current_mode);
-  //    Serial.println("Runtime info:");
-  //  }
-  //  else if (cmd == "pg")   // 打印全局变量表
-  //  {
-  //
-  //  }
-  //  else if (cmd == "mi")   // 当前模式初始化
-  //  {
-  //    g_needReinitializeMode = true;
-  //  }
+  else if (cmd == "pause")
+  {
+    g_pause = !g_pause;
+  }
+  else if (cmd == "p wifi")
+  {
+    UDPServer.PrintInfo();
+  }
 }
 
 #endif

@@ -27,7 +27,7 @@ class Mode_Breath : public Mode
       modecfg.flag = false;
       modecfg.brightest = 0.7;
       modecfg.darkest = 0.1;
-      modecfg.speed = 15;
+      modecfg.speed = 6;
       modecfg.color = CRGB::White;
     }
 
@@ -41,8 +41,8 @@ class Mode_Breath : public Mode
         _half_breath_time = ((1000 * 60) / ConfigManager.config.mode[_modeIndex].speed) / 2;
       }
 
-      _brightness_min = min((uint8_t)(BRIGHT_RANGE_MAX * ConfigManager.config.mode[_modeIndex].darkest), BRIGTH_RANGE_MIN);
-      _brightness_max = max((uint8_t)(BRIGHT_RANGE_MAX * ConfigManager.config.mode[_modeIndex].brightest), BRIGHT_RANGE_MAX);
+      _brightness_min = max((uint8_t)(BRIGHT_RANGE_MAX * ConfigManager.config.mode[_modeIndex].darkest), BRIGTH_RANGE_MIN);
+      _brightness_max = min((uint8_t)(BRIGHT_RANGE_MAX * ConfigManager.config.mode[_modeIndex].brightest), BRIGHT_RANGE_MAX);
 
       if (_brightness_min > _brightness_max)
       {
@@ -54,6 +54,12 @@ class Mode_Breath : public Mode
       Grids.SetColor(_current_color);
       _last_breath_time = 0;
       breath_dir == BD_IN;
+
+      Serial.println("Breath mode initialized.");
+      Serial.print("_half_breath_time = "); Serial.println(_half_breath_time);
+      Serial.print("_brightness_min = "); Serial.println(_brightness_min);
+      Serial.print("_brightness_max = "); Serial.println(_brightness_max);
+      Serial.print("_current_color = "); Serial.println(_current_color);
     }
 
     virtual void OnConfigChanged(DirtyFlags& dirtyFlags)
@@ -110,11 +116,12 @@ class Mode_Breath : public Mode
       if (oldBrightness != _current_brightness)
       {
         Grids.SetBrightness(_current_brightness);
+        //Serial.println(_current_brightness);
         return true;
       }
       else
       {
-        return super::Process();
+        return false;
       }
     }
   private:

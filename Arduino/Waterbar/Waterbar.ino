@@ -15,6 +15,7 @@
 
 Mode* modes[12];
 int current_mode;
+bool g_pause = false;
 
 void setup()
 {
@@ -48,14 +49,17 @@ void setup()
 
   //TODO: 初始化麦克风输入（INMP441）
 
+  // 初始化Wifi
+  UDPServer.Begin();
+
   // 初始化LED灯组
   Grids.InitializeLEDArray();
   // 创建各个模式
   modes[0] = new Mode_Test(0);             // 测试模式
   modes[1] = new Mode_Breath(1);
-  // modes[2] = new MasakMode_Color;
-  // modes[3] = new FlowMode_Simple;
-  // modes[4] = new FlowMode_Color;
+  modes[2] = new Mode_Mosaic(2);
+  modes[3] = new Mode_AudioVis(3);
+  modes[4] = new Mode_AudioScroll(4);
   // modes[5] = new MusicMode_Light;
   // modes[6] = new MusicMode_Histogram;
   // modes[7] = new NoiceMode_Simple;
@@ -90,6 +94,7 @@ void loop()
   }
 
   // . 检查网络消息
+  UDPServer.Process();
 
   // . 运行模式
   Mode* pCurMode = modes[current_mode];
@@ -98,16 +103,23 @@ void loop()
     current_mode = ConfigManager.config.current_mode;
     pCurMode = modes[current_mode];
     pCurMode->Initialize();
-    
+
     ConfigManager.modeChanged = false;
   }
 
-  if (pCurMode->Process() )
+  if (!g_pause)
   {
-    Grids.Show();    
+    if (pCurMode->Process())
+    {
+      Grids.Show();
+    }
+    else
+    {
+      delay(30);
+    }
   }
   else
   {
-    delay(20);
+    delay(100);
   }
 }

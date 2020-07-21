@@ -39,11 +39,17 @@ void loop()
   int samples_read = num_bytes_read / 8;
   if (samples_read > 0) {
 
-    float mean = 0;
+    double mean = 0;
     for (int i = 0; i < samples_read; ++i) {
       mean += samples[i];
     }
-    Serial.println(mean);
+    static double min_mean = 0;
+    static double max_mean = 0;
+    //if (mean < min_mean) min_mean = mean;
+    if (mean > max_mean) max_mean = mean;
+    Serial.print("mean="); Serial.print(mean);Serial.print(",");
+    //Serial.print("min="); Serial.print(min_mean);Serial.print(",");
+    Serial.print("max="); Serial.print(max_mean);Serial.println();
   }
 }
 

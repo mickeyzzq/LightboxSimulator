@@ -4,7 +4,7 @@
 #include "SampleMap.h"
 
 #ifdef RELEASE
-#define LED_CHIP_SET          WS2811 //UCS1903
+#define LED_CHIP_SET          WS2811_400 //UCS1903
 #define LED_DATA_PIN          23
 #define LED_CHIP_RGBSET       BGR
 
@@ -112,10 +112,11 @@ class CGrids
       return _myMap->size();
     }
 
-    int GetRowNum() {
+    inline int GetRowNum() {
       return _rowNum;
     }
-    int GetColNum() {
+    
+    inline int GetColNum() {
       return _colNum;
     }
 
@@ -175,13 +176,22 @@ class CGrids
         GridInfo* pInfo = _myMap->get( GKEY(row, col) );
         if (pInfo != NULL)
         {
-          if (pInfo->ic_num > 1)
-            fill_solid( &_leds[pInfo->ic_start], pInfo->ic_num - 1, color);
-          else
-            _leds[pInfo->ic_start] = color;
-//          Serial.print("===>Grids.SetColor:"); Serial.print(pInfo->ic_start); Serial.print(", "); Serial.print(pInfo->ic_num);
-//          Serial.print(", Color=0x"); Serial.print(color.r, HEX);Serial.print(color.g, HEX);Serial.print(color.b, HEX);
-//          Serial.println();
+          fill_solid( &_leds[pInfo->ic_start], pInfo->ic_num, color);
+        }
+      }
+    }
+
+    void SetRowColor(uint8_t row, CRGB color)
+    {
+      for (int col = 0; col < GetColNum(); col++)
+      {
+        if (IsLEDGrid(row, col))
+        {
+          GridInfo* pInfo = _myMap->get( GKEY(row, col) );
+          if (pInfo != NULL)
+          {
+            fill_solid( &_leds[pInfo->ic_start], pInfo->ic_num, color);
+          }
         }
       }
     }
@@ -194,14 +204,27 @@ class CGrids
         if (pInfo != NULL)
         {
           if (pInfo->ic_num > 1)
-            fill_solid( &_leds[pInfo->ic_start], pInfo->ic_num - 1, CRGB::Black);
+            fill_solid( &_leds[pInfo->ic_start], pInfo->ic_num, CRGB::Black);
           else
             _leds[pInfo->ic_start] = CRGB::Black;
         }
       }
     }
 
-
+    void LightOffRow(uint8_t row)
+    {
+      for (int col = 0; col < GetColNum(); col++)
+      {
+        if (IsLEDGrid(row, col))
+        {
+          GridInfo* pInfo = _myMap->get( GKEY(row, col) );
+          if (pInfo != NULL)
+          {
+            fill_solid( &_leds[pInfo->ic_start], pInfo->ic_num, CRGB::Black);
+          }
+        }
+      }
+    }
   public:
     struct GridInfo
     {
